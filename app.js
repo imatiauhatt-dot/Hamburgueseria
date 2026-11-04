@@ -367,26 +367,35 @@
 
   function parseOrder(t) {
     var o = { lines: [], name: '', phone: '', envio: false, addr: '', note: '', total: 0 };
-    // WhatsApp suele copiar marcas invisibles y espacios raros: se limpian antes de leer
-    var clean = String(t || '')
-      .replace(/[\u200B-\u200F\u202A-\u202E\u2060\u2066-\u2069\uFEFF]/g, '')
-      .replace(/[\u00A0\u202F\u2007]/g, ' ');
-    clean.split(/\r?\n/).forEach(function (raw) {
-      var l = raw.trim().replace(/^[•·*▪◦\-–—]\s+(?=\d+\s*[xX×])/, '');
-      var m;
-      if ((m = l.match(/(\d+)\s*[xX×]\s+(.+?)\s+[-–—−]\s*\$?\s*([\d.,]+)\s*$/))) {
-        var q = +m[1], sub = toNum(m[3]);
-        var nm = m[2].trim(), mods = '';
-        var mm = nm.match(/^(.*?)\s*\(sin\s+(.+)\)$/i);
-        if (mm) { nm = mm[1].trim(); mods = mm[2].trim(); }
-        o.lines.push({ q: q, name: nm, mods: mods, sub: sub, price: q ? sub / q : sub });
-      } else if ((m = l.match(/^Total:\s*\$\s*([\d.,]+)/i))) o.total = toNum(m[1]);
-      else if ((m = l.match(/^Nombre:\s*(.*)$/i))) o.name = m[1].trim();
-      else if ((m = l.match(/^Tel[eé]fono:\s*(.*)$/i))) o.phone = m[1].trim();
-      else if ((m = l.match(/^Modalidad:\s*(.*)$/i))) o.envio = /env[ií]o/i.test(m[1]);
-      else if ((m = l.match(/^Direcci[oó]n:\s*(.*)$/i))) o.addr = m[1].trim();
-      else if ((m = l.match(/^Aclaraciones:\s*(.*)$/i))) o.note = m[1].trim();
-    });
+    // WhatsApp puede copiar todo en una línea, con marcas invisibles y espacios raros:
+    // se limpia y se aplana el texto, y se leen los datos por su etiqueta.
+    var flat = String(t || '')
+      .replace(/[​-‏‪-‮⁠⁦-⁩﻿]/g, '')
+      .replace(/[   ]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    var re = /(\d+)\s*[xX×]\s+(.+?)\s+[-–—−]\s*\$\s*([\d.,]+)/g;
+    var m;
+    while ((m = re.exec(flat))) {
+      var q = +m[1], sub = toNum(m[3]);
+      var nm = m[2].trim(), mods = '';
+      var mm = nm.match(/^(.*?)\s*\(sin\s+(.+)\)$/i);
+      if (mm) { nm = mm[1].trim(); mods = mm[2].trim(); }
+      o.lines.push({ q: q, name: nm, mods: mods, sub: sub, price: q ? sub / q : sub });
+    }
+    function field(label, stops) {
+      var r = new RegExp(label + ':\\s*(.*?)' + (stops ? '(?=\\s+(?:' + stops + '):|$)' : '$'), 'i');
+      var x = flat.match(r);
+      return x ? x[1].trim() : '';
+    }
+    var all = 'Nombre|Tel[eé]fono|Modalidad|Direcci[oó]n|Aclaraciones|Total';
+    var tm = flat.match(/Total:\s*\$\s*([\d.,]+)/i);
+    if (tm) o.total = toNum(tm[1]);
+    o.name = field('Nombre', all);
+    o.phone = field('Tel[eé]fono', all);
+    o.envio = /env[ií]o/i.test(field('Modalidad', all));
+    o.addr = field('Direcci[oó]n', all);
+    o.note = field('Aclaraciones', '');
     if (!o.total) o.total = o.lines.reduce(function (s, x) { return s + x.sub; }, 0);
     return o;
   }
