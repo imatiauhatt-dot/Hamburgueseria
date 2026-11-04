@@ -1,0 +1,141 @@
+{
+  "v": 1,
+  "sample": false,
+  "shop": {
+    "name": "La Parada Burguer",
+    "phone": "3855717354",
+    "hours": "Martes a domingo, de 20 a 00 hs",
+    "open": true
+  },
+  "items": [
+    {
+      "id": "h1",
+      "name": "Clásica",
+      "desc": "Medallón de carne 120 g, cheddar, lechuga, tomate y aderezo de la casa.",
+      "ing": [
+        "Cheddar",
+        "Lechuga",
+        "Tomate",
+        "Aderezo de la casa"
+      ],
+      "price": 8500,
+      "cat": "Hamburguesas",
+      "on": true
+    },
+    {
+      "id": "h2",
+      "name": "Doble cheddar",
+      "desc": "Dos medallones, doble cheddar, cebolla caramelizada y pickles.",
+      "ing": [
+        "Doble cheddar",
+        "Cebolla caramelizada",
+        "Pickles"
+      ],
+      "price": 11500,
+      "cat": "Hamburguesas",
+      "on": true
+    },
+    {
+      "id": "h3",
+      "name": "Bacon BBQ",
+      "desc": "Medallón, panceta crocante, cheddar y salsa barbacoa.",
+      "ing": [
+        "Panceta",
+        "Cheddar",
+        "Salsa barbacoa"
+      ],
+      "price": 10500,
+      "cat": "Hamburguesas",
+      "on": true
+    },
+    {
+      "id": "s1",
+      "name": "Lomito completo",
+      "desc": "Lomo, jamón, queso, huevo, lechuga y tomate.",
+      "ing": [
+        "Jamón",
+        "Queso",
+        "Huevo",
+        "Lechuga",
+        "Tomate"
+      ],
+      "price": 10000,
+      "cat": "Sándwiches",
+      "on": true
+    },
+    {
+      "id": "s2",
+      "name": "Milanesa completa",
+      "desc": "Milanesa de carne, jamón, queso, lechuga y tomate.",
+      "ing": [
+        "Jamón",
+        "Queso",
+        "Lechuga",
+        "Tomate"
+      ],
+      "price": 9500,
+      "cat": "Sándwiches",
+      "on": true
+    },
+    {
+      "id": "s3",
+      "name": "Pollo crispy",
+      "desc": "Pechuga rebozada, lechuga y mayonesa de ajo.",
+      "ing": [
+        "Lechuga",
+        "Mayonesa de ajo"
+      ],
+      "price": 8800,
+      "cat": "Sándwiches",
+      "on": true
+    },
+    {
+      "id": "a1",
+      "name": "Papas fritas",
+      "desc": "Porción para uno.",
+      "ing": [],
+      "price": 4500,
+      "cat": "Acompañamientos",
+      "on": true
+    },
+    {
+      "id": "a2",
+      "name": "Papas cheddar y panceta",
+      "desc": "Porción para compartir.",
+      "ing": [
+        "Cheddar",
+        "Panceta"
+      ],
+      "price": 6500,
+      "cat": "Acompañamientos",
+      "on": true
+    },
+    {
+      "id": "b1",
+      "name": "Gaseosa 500 ml",
+      "desc": "",
+      "ing": [],
+      "price": 2200,
+      "cat": "Bebidas",
+      "on": true
+    },
+    {
+      "id": "b2",
+      "name": "Cerveza lata",
+      "desc": "",
+      "ing": [],
+      "price": 3000,
+      "cat": "Bebidas",
+      "on": true
+    },
+    {
+      "id": "b3",
+      "name": "Agua sin gas",
+      "desc": "",
+      "ing": [],
+      "price": 1800,
+      "cat": "Bebidas",
+      "on": true
+    }
+  ]
+}
