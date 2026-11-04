@@ -367,10 +367,14 @@
 
   function parseOrder(t) {
     var o = { lines: [], name: '', phone: '', envio: false, addr: '', note: '', total: 0 };
-    String(t || '').split(/\r?\n/).forEach(function (raw) {
-      var l = raw.trim();
+    // WhatsApp suele copiar marcas invisibles y espacios raros: se limpian antes de leer
+    var clean = String(t || '')
+      .replace(/[\u200B-\u200F\u202A-\u202E\u2060\u2066-\u2069\uFEFF]/g, '')
+      .replace(/[\u00A0\u202F\u2007]/g, ' ');
+    clean.split(/\r?\n/).forEach(function (raw) {
+      var l = raw.trim().replace(/^[•·*▪◦\-–—]\s+(?=\d+\s*[xX×])/, '');
       var m;
-      if ((m = l.match(/^(\d+)\s*[xX×]\s+(.+?)\s+[-–—]\s+\$\s*([\d.,]+)$/))) {
+      if ((m = l.match(/(\d+)\s*[xX×]\s+(.+?)\s+[-–—−]\s*\$?\s*([\d.,]+)\s*$/))) {
         var q = +m[1], sub = toNum(m[3]);
         var nm = m[2].trim(), mods = '';
         var mm = nm.match(/^(.*?)\s*\(sin\s+(.+)\)$/i);
